@@ -1,6 +1,9 @@
 // lib/screens/home_screen.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../providers/auth_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -8,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final user = context.watch<AuthProvider>().user;
 
     return Scaffold(
       appBar: AppBar(title: const Text('Notes App')),
@@ -17,11 +21,15 @@ class HomeScreen extends StatelessWidget {
           spacing: 12,
           children: [
             Text('Notes App', style: textTheme.headlineLarge),
-            const Text('Flutter + go_router'),
+            Text('Hello, ${user?.name.isNotEmpty == true ? user!.name : user?.email}'),
             const SizedBox(height: 16),
             FilledButton(
               onPressed: () => context.go('/notes'),
               child: const Text('Open my notes →'),
+            ),
+            TextButton(
+              onPressed: () => context.read<AuthProvider>().signOut(),
+              child: const Text('Sign out'),
             ),
           ],
         ),

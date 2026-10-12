@@ -4,3 +4,5 @@ export type Note = {
   title: string;
   content: string;
 };
+
+export type NoteDraft = Pick<Note, 'title' | 'content'>;
